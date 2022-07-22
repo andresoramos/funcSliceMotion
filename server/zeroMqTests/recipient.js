@@ -1,6 +1,6 @@
 const zmq = require('zeromq')
 const subscriber = zmq.socket('rep');
-const {createPoint} = require('../helpers/helpers')
+const {createPoint, artificialDelayFromSendingListToApi} = require('../helpers/helpers')
 
 // subscriber.on("message", function(reply) {
 //     console.log('Received message: ', reply.toString());
@@ -9,11 +9,12 @@ const {createPoint} = require('../helpers/helpers')
 subscriber.connect("tcp://localhost:9000");
 // subscriber.subscribe("");
 console.log("Subscriber running...")
-subscriber.on("message", (message)=>{
-    console.log("Message hit")
-    const point = createPoint();
-    console.log("Got the message: ", message.toString());
-    subscriber.send(JSON.stringify(point))
+subscriber.on("message", async (message)=>{
+    console.log("Message received in recipient")
+    const listGotToApi = await artificialDelayFromSendingListToApi(2);
+    if(listGotToApi){
+        subscriber.send(JSON.stringify({listRan: true}))
+    }
 });
 
 

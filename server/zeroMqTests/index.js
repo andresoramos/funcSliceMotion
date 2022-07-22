@@ -1,1 +1,2 @@
 require('./publisher');
+require('./recipient');

@@ -13,6 +13,14 @@ const createPoint = () =>{
   return returnObj;
 };
 
+const artificialDelayFromSendingListToApi = async (time) =>{
+  return new Promise(async(resolve)=>{
+    return setTimeout(()=>{
+        resolve(true);
+    }, time * 1000)
+  })
+}
 
 
-module.exports = {getNumber, createPoint}
+
+module.exports = {getNumber, createPoint, artificialDelayFromSendingListToApi}
